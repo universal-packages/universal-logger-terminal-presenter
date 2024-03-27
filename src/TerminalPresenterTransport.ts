@@ -134,10 +134,11 @@ export default class TerminalPresenterTransport implements TransportInterface {
 
     if (logEntry.metadata) {
       const isUnique = !logEntry.tags
+      const isTop = !logEntry.message && !logEntry.error
       documentDescriptor.rows.push({
         blocks: [
           {
-            border: [true, false, true, false],
+            border: [!isTop, false, true, false],
             borderStyle: ['dash-3', BORDER_STYLE_DEFAULT, isUnique ? BORDER_STYLE_DEFAULT : 'dash-3', BORDER_STYLE_DEFAULT],
             borderColor: LEVEL_COLORS[logEntry.level].primary,
             free: true,
