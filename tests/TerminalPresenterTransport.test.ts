@@ -18,7 +18,7 @@ beforeAll((): void => {
 })
 
 describe(TerminalPresenterTransport, (): void => {
-  it('clears the terminal af first log', async (): Promise<void> => {
+  it('Uses terminal presenter to log entries', async (): Promise<void> => {
     const logger = new Logger({ transports: [{ transport: new TerminalPresenterTransport() }] })
     await logger.prepare()
 
@@ -170,7 +170,7 @@ describe(TerminalPresenterTransport, (): void => {
       { categoryBackgroundColor: 'red', categoryColor: 'white' }
     )
 
-    await logger.dispatcher.waitFor('idle')
+    await logger.waitForLoggingActivity()
 
     const printDocumentMock = TerminalPresenter.printDocument as jest.Mock
 

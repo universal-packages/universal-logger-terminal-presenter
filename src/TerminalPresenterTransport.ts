@@ -21,6 +21,7 @@ import { getTerminalColumns } from '@universal-packages/terminal-presenter/getTe
 import util from 'util'
 
 import { TerminalPresenterTransportLogConfiguration, TerminalPresenterTransportOptions } from './TerminalPresenterTransport.types'
+import { EnvironmentTagBlock } from './components/EnvironmentTagBlock'
 
 const LEVEL_COLORS: Record<LogLevel, { primary: Color; secondary: Color }> = {
   ERROR: { primary: RedColor.Crimson, secondary: RedColor.FireBrick },
@@ -30,13 +31,6 @@ const LEVEL_COLORS: Record<LogLevel, { primary: Color; secondary: Color }> = {
   INFO: { primary: BlueColor.SteelBlue, secondary: BlueColor.DeepSkyBlue },
   DEBUG: { primary: GrayColor.DarkGray, secondary: GrayColor.DimGray },
   TRACE: { primary: GrayColor.Silver, secondary: WhiteColor.White }
-}
-
-const ENVIRONMENT_COLORS: Record<string, { primary: Color; secondary: Color }> = {
-  development: { primary: OrangeColor.OrangeRed, secondary: WhiteColor.White },
-  production: { primary: PurpleColor.DarkMagenta, secondary: WhiteColor.White },
-  test: { primary: PinkColor.MediumVioletRed, secondary: WhiteColor.White },
-  other: { primary: PurpleColor.Purple, secondary: WhiteColor.White }
 }
 
 const TAG_COLORS = [
@@ -266,17 +260,13 @@ export default class TerminalPresenterTransport implements TransportInterface {
     }
 
     if (logEntry.environment) {
-      headerRow.blocks.push({
+      const { id, ...ENVIRONMENT_BLOCK } = EnvironmentTagBlock({
         border: infoBorder,
         borderStyle: BORDER_STYLE_DEFAULT,
-        borderColor: LEVEL_COLORS[logEntry.level].primary,
-        backgroundColor: (ENVIRONMENT_COLORS[logEntry.environment] || ENVIRONMENT_COLORS.other).primary,
-        color: (ENVIRONMENT_COLORS[logEntry.environment] || ENVIRONMENT_COLORS.other).secondary,
-        style: 'bold',
-        text: ` ${logEntry.environment.toUpperCase()} `,
-        verticalAlign: 'middle',
-        width: 'fit'
-      })
+        borderColor: LEVEL_COLORS[logEntry.level].primary
+      }).descriptor
+
+      headerRow.blocks.push(ENVIRONMENT_BLOCK)
       headerRow.blocks.push({
         border: infoBorder,
         borderStyle: BORDER_STYLE_DEFAULT,
