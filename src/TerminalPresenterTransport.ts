@@ -16,7 +16,7 @@ import {
   WhiteColor,
   YellowColor
 } from '@universal-packages/terminal-document'
-import { TerminalPresenter } from '@universal-packages/terminal-presenter'
+import { printDocument } from '@universal-packages/terminal-presenter'
 import { getTerminalColumns } from '@universal-packages/terminal-presenter/getTerminalColumns'
 import util from 'util'
 
@@ -180,7 +180,7 @@ export default class TerminalPresenterTransport implements TransportInterface {
       }
     }
 
-    TerminalPresenter.firstInstance.printDocument(documentDescriptor)
+    printDocument(documentDescriptor)
   }
 
   private buildHeaderRow(logEntry: TransportLogEntry, configuration?: TerminalPresenterTransportLogConfiguration): RowDescriptor {

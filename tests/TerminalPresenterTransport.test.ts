@@ -1,16 +1,12 @@
 import { Logger } from '@universal-packages/logger'
-import { TerminalPresenter } from '@universal-packages/terminal-presenter'
+import { printDocument } from '@universal-packages/terminal-presenter'
 import { Measurement } from '@universal-packages/time-measurer'
 
 import { TerminalPresenterTransport } from '../src'
 
 jest.mock('@universal-packages/terminal-presenter', () => {
   return {
-    TerminalPresenter: {
-      firstInstance: {
-        printDocument: jest.fn()
-      }
-    }
+    printDocument: jest.fn()
   }
 })
 
@@ -174,7 +170,7 @@ describe(TerminalPresenterTransport, (): void => {
 
     await logger.waitForLoggingActivity()
 
-    const printDocumentMock = TerminalPresenter.firstInstance.printDocument as jest.Mock
+    const printDocumentMock = printDocument as jest.Mock
 
     expect(printDocumentMock.mock.calls).toEqual([
       [
