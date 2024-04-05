@@ -20,8 +20,8 @@ import { TerminalPresenter } from '@universal-packages/terminal-presenter'
 import { getTerminalColumns } from '@universal-packages/terminal-presenter/getTerminalColumns'
 import util from 'util'
 
-import { TerminalPresenterTransportLogConfiguration, TerminalPresenterTransportOptions } from './TerminalPresenterTransport.types'
 import { EnvironmentTagBlock } from './components/EnvironmentTagBlock'
+import { TerminalPresenterTransportLogConfiguration } from './types'
 
 const LEVEL_COLORS: Record<LogLevel, { primary: Color; secondary: Color }> = {
   ERROR: { primary: RedColor.Crimson, secondary: RedColor.FireBrick },
@@ -60,12 +60,6 @@ const TAG_COLORS = [
 const BORDER_STYLE_DEFAULT = 'dash-2-thick'
 
 export default class TerminalPresenterTransport implements TransportInterface {
-  public readonly options: TerminalPresenterTransportOptions
-
-  public constructor(options?: TerminalPresenterTransportOptions) {
-    this.options = { withHeader: false, ...options }
-  }
-
   public async log(logEntry: TransportLogEntry, configuration?: TerminalPresenterTransportLogConfiguration): Promise<void> {
     const documentDescriptor: DocumentDescriptor = { rows: [] }
     const headerRow = this.buildHeaderRow(logEntry, configuration)
@@ -186,7 +180,7 @@ export default class TerminalPresenterTransport implements TransportInterface {
       }
     }
 
-    TerminalPresenter.printDocument(documentDescriptor)
+    TerminalPresenter.firstInstance.printDocument(documentDescriptor)
   }
 
   private buildHeaderRow(logEntry: TransportLogEntry, configuration?: TerminalPresenterTransportLogConfiguration): RowDescriptor {
