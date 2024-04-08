@@ -4,6 +4,7 @@ import { Measurement } from '@universal-packages/time-measurer'
 
 import { TerminalPresenterTransport } from '../src'
 
+jest.mock('@universal-packages/terminal-presenter/getTerminalColumns', () => ({ getTerminalColumns: () => 60 }))
 jest.mock('@universal-packages/terminal-presenter', () => {
   return {
     printDocument: jest.fn()
@@ -12,7 +13,6 @@ jest.mock('@universal-packages/terminal-presenter', () => {
 
 beforeAll((): void => {
   Date.prototype.toLocaleTimeString = (): string => 'date'
-  process.stdout.columns = 60
 })
 
 describe(TerminalPresenterTransport, (): void => {
@@ -593,15 +593,15 @@ describe(TerminalPresenterTransport, (): void => {
                   width: 'fit'
                 },
                 {
-                  border: [true, false, false, false],
-                  borderStyle: 'dash-2-thick',
-                  borderColor: 'steel-blue',
                   backgroundColor: 'medium-violet-red',
                   color: 'white',
                   style: 'bold',
                   text: ' TEST ',
                   verticalAlign: 'middle',
-                  width: 'fit'
+                  width: 'fit',
+                  border: [true, false, false, false],
+                  borderStyle: 'dash-2-thick',
+                  borderColor: 'steel-blue'
                 },
                 {
                   border: [true, false, false, false],
@@ -705,7 +705,11 @@ describe(TerminalPresenterTransport, (): void => {
                 },
                 {
                   text: ' '
-                },
+                }
+              ]
+            },
+            {
+              blocks: [
                 {
                   backgroundColor: 'medium-slate-blue',
                   color: 'white',
@@ -725,11 +729,7 @@ describe(TerminalPresenterTransport, (): void => {
                 },
                 {
                   text: ' '
-                }
-              ]
-            },
-            {
-              blocks: [
+                },
                 {
                   backgroundColor: 'lime-green',
                   color: 'white',
@@ -779,7 +779,11 @@ describe(TerminalPresenterTransport, (): void => {
                 },
                 {
                   text: ' '
-                },
+                }
+              ]
+            },
+            {
+              blocks: [
                 {
                   backgroundColor: 'purple',
                   color: 'white',
@@ -819,11 +823,7 @@ describe(TerminalPresenterTransport, (): void => {
                 },
                 {
                   text: ' '
-                }
-              ]
-            },
-            {
-              blocks: [
+                },
                 {
                   backgroundColor: 'dark-cyan',
                   color: 'white',
